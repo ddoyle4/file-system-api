@@ -24,6 +24,12 @@ library
                      , servant-server
                      , bson-generic
                      , aeson
+                     , cipher-aes
+                     , random
+                     , cryptohash
+                     , base16-bytestring
+                     , bytestring
+
   default-language:    Haskell2010
 
 
