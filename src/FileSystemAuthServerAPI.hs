@@ -28,6 +28,12 @@ data User = User  { username :: String
                   , userpassword :: String
                   } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
+--model for how the user is stored in the database
+data DBUser = DBUser  { dbusername :: String
+                      , dbpassword :: String
+                      , dbencusername :: String     --the user's username encrypted with their password
+                      } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+
 deriving instance FromBSON String  -- we need these as BSON does not provide
 deriving instance ToBSON   String
 
@@ -42,9 +48,13 @@ type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSO
       :<|> "searchMessage"              :> QueryParam "name" String :> Get '[JSON] [Message]
       :<|> "performRESTCall"            :> QueryParam "filter" String  :> Get '[JSON] ResponseData
       :<|> "debugSaveUser"              :> ReqBody '[JSON] User  :> Post '[JSON] Bool
+      --NOTE instead of creating yet another data type almost identical to User, I am overloading the
+      --user data type for authorisation requests - the only difference here is that the password
+      --will actually be a string representation of the username encrypted with the password
+      :<|> "authUser"                   :> ReqBody '[JSON] User  :> Post '[JSON] Bool          
 
 
--- ENCRYPTION STUFF
+-- ENCRYPTION STUFF -TODO perhaps this would be better in it's own API 
 
 paddingChar :: Char
 paddingChar = '\0'
