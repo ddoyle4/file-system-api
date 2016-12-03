@@ -20,6 +20,10 @@ data Message = Message { name    :: String
                        , message :: String
                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
+data User = User  { username :: String
+                  , userpassword :: String
+                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+
 deriving instance FromBSON String  -- we need these as BSON does not provide
 deriving instance ToBSON   String
 
@@ -33,4 +37,5 @@ type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSO
       :<|> "storeMessage"               :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
       :<|> "searchMessage"              :> QueryParam "name" String :> Get '[JSON] [Message]
       :<|> "performRESTCall"            :> QueryParam "filter" String  :> Get '[JSON] ResponseData
+      :<|> "debugSaveUser"              :> ReqBody '[JSON] User  :> Post '[JSON] Bool
 
