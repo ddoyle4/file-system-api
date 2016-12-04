@@ -44,7 +44,7 @@ data SenderToken = SenderToken  { senKey1Seed :: String
 
 data AuthRespone = AuthResponse   { authStatus :: String    --TODO try bool instead
                                   , encSenderToken :: String
-                                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON
+                                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
 data Message = Message { name    :: String
                        , message :: String
