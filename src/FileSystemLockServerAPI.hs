@@ -22,10 +22,11 @@ import Crypto.Hash.MD5
 
 
 
-
+-- data type for the lock request message
 data LockFileReq = LockFileReq  { lockVirtPath :: String
                                 } deriving (Generic, ToJSON, FromJSON,FromBSON, Show)
 
+-- data type for the unlock request message
 data UnlockFileReq = UnlockFileReq  { unlockVirtPath :: String
                                     } deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
 
