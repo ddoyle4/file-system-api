@@ -77,7 +77,7 @@ type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSO
       --NOTE instead of creating yet another data type almost identical to User, I am overloading the
       --user data type for authorisation requests - the only difference here is that the password
       --will actually be a string representation of the username encrypted with the password
-      :<|> "authUser"                   :> ReqBody '[JSON] User  :> Post '[JSON] Bool          
+      :<|> "authUser"                   :> ReqBody '[JSON] User  :> Post '[JSON] AuthResponse          
 
 
 -- ENCRYPTION STUFF -TODO perhaps this would be better in it's own API 
