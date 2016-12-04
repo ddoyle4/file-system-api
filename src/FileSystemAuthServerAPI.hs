@@ -36,17 +36,17 @@ key2Seed = "key2seed"
 --Cotains key 1 and metadata for a receiver
 data ReceiverToken = ReceiverToken  { recKey1Seed :: String
                                     , recMetaData :: String     ---TODO spice this metadata up
-                                    } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+                                    } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 --contains key 1 and encrypted ReceiverToken
 data SenderToken = SenderToken  { senKey1Seed :: String
-                                , encReceiverToken :: String
-                                } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+                                , encReceiverToken :: String    --receiver token encrypted with key2
+                                } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
-data AuthResponse = AuthResponse  { authStatus :: String    --TODO try bool instead
-                                  , authUsername :: String  --the username that was authenticated
-                                  , encSenderToken :: String
-                                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+data AuthResponse = AuthResponse  { authStatus :: String        --TODO try bool instead
+                                  , authUsername :: String      --the username that was authenticated
+                                  , encSenderToken :: String    --SenderToken encrypted with password
+                                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 data Message = Message { name    :: String
                        , message :: String
