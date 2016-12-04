@@ -29,6 +29,7 @@ import Crypto.Hash.MD5
 key1Seed :: String
 key1Seed = "key1seed"
 
+--seed for fileservers
 key2Seed :: String
 key2Seed = "key2seed"
 
