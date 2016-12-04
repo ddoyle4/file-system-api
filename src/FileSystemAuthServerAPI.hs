@@ -26,13 +26,13 @@ data Message = Message { name    :: String
 
 data User = User  { username :: String
                   , userpassword :: String
-                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 --model for how the user is stored in the database
 data DBUser = DBUser  { dbusername :: String
                       , dbpassword :: String
                       , dbencusername :: String     --the user's username encrypted with their password
-                      } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+                      } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 deriving instance FromBSON String  -- we need these as BSON does not provide
 deriving instance ToBSON   String
