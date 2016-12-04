@@ -20,6 +20,32 @@ import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as BC
 import Crypto.Hash.MD5
 
+
+
+--DATA TYPES FOR SECURE COMMUNICATION
+--The authentification server generates keys for secure communicatin between a sender (invariably the client in this case)
+--and a receiver (a file server, a directory server, etc.). See notes for details about particular keys
+
+key1Seed :: String
+key1Seed = "key1seed"
+
+key2Seed :: String
+key2Seed = "key2seed"
+
+--Cotains key 1 and metadata for a receiver
+data ReceiverToken = ReceiverToken  { recKey1Seed :: String
+                                    , recMetaData :: String     ---TODO spice this metadata up
+                                    } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+
+--contains key 1 and encrypted ReceiverToken
+data SenderToken = SenderToken  { senKey1Seed :: String
+                                , encReceiverToken :: String
+                                } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+
+data AuthRespone = AuthResponse   { authStatus :: String    --TODO try bool instead
+                                  , encSenderToken :: String
+                                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON
+
 data Message = Message { name    :: String
                        , message :: String
                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
@@ -69,25 +95,11 @@ removePadding str = [x | x <- str, x /= paddingChar]
 
 -- use keyString to create an AES key, and use it to encrypt toEncrypt. Return a
 -- String representation of this encrypted value.
-{-encryptString :: String -> String -> IO String
-encryptString toEncrypt keyString = do
-  let encryptBytes = BC.pack $ addPadding toEncrypt
-  let k = CCA.initAES $ hash $ BC.pack keyString
-  let encryptedString = BC.unpack $ CCA.encryptECB k encryptBytes
-  return encryptedString
--}
 encryptString :: String -> String -> String
 encryptString toEncrypt keyString = BC.unpack $ CCA.encryptECB (CCA.initAES (hash (BC.pack keyString))) (BC.pack (addPadding toEncrypt))
 
 -- reverse of encryptString
 -- NOTE: toDecrypt must have been produced by encryptString with the same
 -- keyString
-{-decryptString :: String -> String -> IO String
-decryptString toDecrypt keyString = do
-  let k = CCA.initAES $ hash $ BC.pack keyString
-  let decryptedString = BC.unpack $ CCA.decryptECB k (BC.pack toDecrypt)
-  let str = removePadding decryptedString
-  return str
--}
 decryptString :: String -> String -> String
 decryptString toDecrypt keyString = removePadding $ BC.unpack $ CCA.decryptECB (CCA.initAES (hash (BC.pack (keyString)))) (BC.pack toDecrypt)
