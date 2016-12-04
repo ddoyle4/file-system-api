@@ -42,7 +42,8 @@ data SenderToken = SenderToken  { senKey1Seed :: String
                                 , encReceiverToken :: String
                                 } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
-data AuthResponse = AuthResponse   { authStatus :: String    --TODO try bool instead
+data AuthResponse = AuthResponse  { authStatus :: String    --TODO try bool instead
+                                  , authUsername :: String  --the username that was authenticated
                                   , encSenderToken :: String
                                   } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
