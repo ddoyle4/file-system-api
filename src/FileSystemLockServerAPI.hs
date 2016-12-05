@@ -34,6 +34,6 @@ deriving instance FromBSON String  -- we need these as BSON does not provide
 deriving instance ToBSON   String
 
 
-type API = "lockFile"                    :> ReqBody '[JSON] LockFileReq :> Post '[JSON] Bool
-                      :<|> "unlockFile"             :> ReqBody '[JSON] UnlockFileReq :> Post '[JSON] Bool
+type API =  "lockFile"                    :> ReqBody '[JSON] LockFileReq :> Post '[JSON] Bool
+            :<|> "unlockFile"             :> ReqBody '[JSON] UnlockFileReq :> Post '[JSON] Bool
 
