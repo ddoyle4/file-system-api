@@ -29,6 +29,6 @@ authUser :: User -> ClientM AuthResponse
 
 -- | The following provides the implementations of these types
 -- Note that the order of the functions must match the endpoints in the type API from the endpoint API
-
+--migh have to change this for other calls to other services
 (loadEnvVars :<|> getREADME  :<|> storeMessage  :<|> searchMessage :<|> performRestCall :<|> debugSaveUser :<|> authUser) = client restAPI
 
