@@ -21,6 +21,10 @@ import qualified Data.ByteString.Char8 as BC
 import Crypto.Hash.MD5
 
 
+data FileLock = FileLock  { virtLockPath :: String
+                          , virtPathLocked :: Bool
+                          } deriving (Generic, ToJSON, FromJSON,FromBSON, Show)
+
 
 -- data type for the lock request message
 data LockFileReq = LockFileReq  { lockVirtPath :: String
@@ -32,6 +36,10 @@ data UnlockFileReq = UnlockFileReq  { unlockVirtPath :: String
 
 deriving instance FromBSON String  -- we need these as BSON does not provide
 deriving instance ToBSON   String
+deriving instance FromBSON Bool  -- we need these as BSON does not provide
+deriving instance ToBSON   Bool
+
+
 
 --this API will be for the lock-service - careful - it's using the same name as the other API services
 type API =  "lockFile"                    :> ReqBody '[JSON] LockFileReq :> Post '[JSON] Bool
