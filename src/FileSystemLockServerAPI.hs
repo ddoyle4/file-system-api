@@ -23,7 +23,7 @@ import Crypto.Hash.MD5
 
 data FileLock = FileLock  { virtLockPath :: String
                           , virtPathLocked :: Bool
-                          } deriving (Generic, ToJSON, FromJSON,FromBSON, Show)
+                          } deriving (Generic, ToJSON, FromJSON, ToBSON, FromBSON, Show)
 
 
 -- data type for the lock request message
