@@ -48,6 +48,7 @@ data ReadFileReq = ReadFileReq  { readReqFileToken :: String
 
 
 data ReadFileResp = ReadFileResp  { readStatus :: Bool
+                                  , readMessage :: String
                                   , encryptedResult :: String
                                   , currentFileVersion :: String
                                   } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
