@@ -61,6 +61,6 @@ deriving instance ToBSON   String
 deriving instance FromBSON Bool  -- we need these as BSON does not provide
 deriving instance ToBSON   Bool
 
-type API =  "writeFile"         :> ReqBody '[JSON] WriteFileReq :> Post '[JSON] WriteFileResp
-            :<|> "readFile"     :> ReqBody '[JSON] ReadFileReq  :> Post '[JSON] ReadFileResp
+type API =  "writeToFile"         :> ReqBody '[JSON] WriteFileReq :> Post '[JSON] WriteFileResp
+            :<|> "readFromFile"     :> ReqBody '[JSON] ReadFileReq  :> Post '[JSON] ReadFileResp
 
