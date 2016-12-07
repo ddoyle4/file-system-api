@@ -21,6 +21,7 @@ library
                      , FileSystemLockServerAPI
                      , FileSystemFileServerAPI
                      , FileSystemEncryption
+                     , FileSystemDirectoryServerAPI
   build-depends:       base >= 4.7 && < 5
                      , servant
                      , servant-client
