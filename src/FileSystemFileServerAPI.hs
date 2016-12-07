@@ -24,12 +24,14 @@ import Crypto.Hash.MD5
 --with this for some reason
 -- model for file in DB
 data DBFile = DBFile  { fileName :: String      -- the name of the file
-                      , filePath :: String      -- simulates directory structure
                       , fileVersion :: String
                       , fileData :: String
                       } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 
+
+
+-- Requests to write to a file
 data WriteFileReq = WriteFileReq  { writeReqToken :: String
                                   , writeReqFileName :: String           --might put this in reqValue instead
                                   , writeReqValue :: String              --file encrypted with 'key 1'
@@ -39,6 +41,7 @@ data WriteFileResp = WriteFileResp  { writeStatus :: Bool
                                     , newFileVersion :: String
                                     } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
+-- Requests to read from a file
 data ReadFileReq = ReadFileReq  { readReqFileToken :: String
                                 , readReqFileName :: String
                                 } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
@@ -49,12 +52,9 @@ data ReadFileResp = ReadFileResp  { readStatus :: Bool
                                   , currentFileVersion :: String
                                   } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
+-- Secure Token to encrypt / decrypt data
+data SecureToken = SecureToken  
 
---model for how the user is stored in the database
-data DBUser = DBUser  { dbusername :: String
-                      , dbpassword :: String
-                      , dbencusername :: String     --the user's username encrypted with their password
-                      } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 deriving instance FromBSON String  -- we need these as BSON does not provide
 deriving instance ToBSON   String
