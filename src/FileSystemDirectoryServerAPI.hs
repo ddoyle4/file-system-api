@@ -33,10 +33,11 @@ data FileRecord = FileRecord  { recordType :: String        --is this a "primary
 --represents cache entry
 --IMPORTANT
 --  These are inserted by the Directory Server - they are fetched from file servers according to the caching strategy
-data CacheRecord = CacheRecord  { cacheName :: String
+data CacheRecord = CacheRecord  { cacheName :: String     --file name
                                 , cacheVersion :: String
                                 , cacheData :: String
-                                , cacheFilled :: Bool   -- notifies task scheduler to fill cache with file data asap
+                                , cacheFilled :: Bool     -- notifies task scheduler to fill cache with file data asap
+                                , cacheWeight :: String   -- represents how important this cache record is, used when clearing cache
                                 } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 --data type for a request to resolve a file to a server
@@ -46,6 +47,8 @@ data ResolutionRequest = ResolutionRequest  { resolveName :: String         --na
 
 data ResolutionResponse = ResolutionResponse  { resolutionStatus :: Bool
                                               , resolution :: FileRecord
+                                              , cacheHit :: Bool            -- set to true on cache hit
+                                              , cachedData :: String         -- contains file data if cache hit
                                               } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 --TODO delete record request
 
@@ -70,8 +73,8 @@ nullFileServerRecord = FileServerRecord "NULL" "NULL" "NULL" "NULL"
 nullFileRecord :: FileRecord
 nullFileRecord = FileRecord "NULL" "NULL" "NULL" nullFileServerRecord
 
-nullResolutionResponse :: ResolutionResponse
-nullResolutionResponse = ResolutionResponse False nullFileRecord
+negativeResolutionResponse :: ResolutionResponse
+negativeResolutionResponse = ResolutionResponse False nullFileRecord False ""
 
 type API =  "resolveFile"                :> ReqBody '[JSON] ResolutionRequest  :> Post '[JSON] ResolutionResponse
             :<|> "insertServerRecord"    :> ReqBody '[JSON] FileServerRecord   :> Post '[JSON] Bool 
