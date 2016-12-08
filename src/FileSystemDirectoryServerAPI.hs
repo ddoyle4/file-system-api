@@ -55,6 +55,7 @@ data ResolutionResponse = ResolutionResponse  { resolutionStatus :: Bool
 data FileServerRecord = FileServerRecord  { fsHost :: String
                                           , fsPort :: String
                                           , fiveMinLoad :: String
+                                          , currentSize :: String
                                           } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 deriving instance FromBSON String  -- we need these as BSON does not provide
@@ -64,7 +65,7 @@ deriving instance ToBSON   Bool
 
 -- used when responding negatively to a ResolutionRequest
 nullFileServerRecord :: FileServerRecord
-nullFileServerRecord = FileServerRecord "NULL" "NULL" "NULL"
+nullFileServerRecord = FileServerRecord "NULL" "NULL" "NULL" "NULL"
 
 nullFileRecord :: FileRecord
 nullFileRecord = FileRecord "NULL" "NULL" "NULL" nullFileServerRecord
