@@ -69,6 +69,8 @@ nullFileServerRecord = FileServerRecord "NULL" "NULL" "NULL"
 nullFileRecord :: FileRecord
 nullFileRecord = FileRecord "NULL" "NULL" "NULL" nullFileServerRecord
 
+nullResolutionResponse :: ResolutionResponse
+nullResolutionResponse = ResolutionResponse False nullFileRecord
 
 type API =  "resolveFile"                :> ReqBody '[JSON] ResolutionRequest  :> Post '[JSON] ResolutionResponse
             :<|> "insertServerRecord"    :> ReqBody '[JSON] FileServerRecord   :> Post '[JSON] Bool 
