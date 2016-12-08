@@ -27,7 +27,7 @@ import Crypto.Hash.MD5
 data FileRecord = FileRecord  { recordType :: String        --is this a "primary" record or a "secondary" (copy) of the file
                               , fileName :: String          --name of the file
                               , fileVersion :: String       --version of the file
-                              , server :: FileServerRecord
+                              , serverRecord :: FileServerRecord
                               } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read, Eq)
 
 --represents cache entry
