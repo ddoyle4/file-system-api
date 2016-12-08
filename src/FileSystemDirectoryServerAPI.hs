@@ -20,8 +20,8 @@ import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as BC
 import Crypto.Hash.MD5
 
---information about files on servers
---IMPORTANT
+-- Information about files on servers.
+-- IMPORTANT
 --  Primary File Records are inserted by the Directory Server
 --  Secondary File Records are inserted by the file servers as copies of the file propagate throughout the system
 data FileRecord = FileRecord  { recordType :: String        --is this a "primary" record or a "secondary" (copy) of the file
@@ -48,7 +48,7 @@ data ResolutionRequest = ResolutionRequest  { resolveName :: String         --na
 data ResolutionResponse = ResolutionResponse  { resolutionStatus :: Bool
                                               , resolution :: FileRecord
                                               , cacheHit :: Bool            -- set to true on cache hit
-                                              , cachedData :: String         -- contains file data if cache hit
+                                              , cachedData :: String        -- contains file data if cache hit
                                               } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 --TODO delete record request
 
