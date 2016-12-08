@@ -21,6 +21,7 @@ import qualified Data.ByteString.Char8 as BC
 import Crypto.Hash.MD5
 
 --TODO use Ints instead of Strings for version numbers, ToBSON and FromBSON have issues
+--TODO add a flag to say whether or not this file has been replicated or not - have the task scheduler check this flag regularly and replicate
 --with this for some reason
 -- model for file in DB
 data DBFile = DBFile  { fileName :: String      -- the name of the file
