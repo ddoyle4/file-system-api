@@ -63,8 +63,11 @@ deriving instance FromBSON Bool  -- we need these as BSON does not provide
 deriving instance ToBSON   Bool
 
 -- used when responding negatively to a ResolutionRequest
-nullResolutionResponse :: ResolutionResponse
-nullResolutionResponse = ResolutionResponse "NULL" "NULL" "NULL" "NULL" "NULL"
+nullFileServerRecord :: FileServerRecord
+nullFileServerRecord = FileServerRecord "NULL" "NULL" "NULL"
+
+nullFileRecord :: FileRecord
+nullFileRecord = FileRecord "NULL" "NULL" "NULL" nullFileServerRecord
 
 
 type API =  "resolveFile"                :> ReqBody '[JSON] ResolutionRequest  :> Post '[JSON] ResolutionResponse
