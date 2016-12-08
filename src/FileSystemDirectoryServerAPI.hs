@@ -43,6 +43,7 @@ data CacheRecord = CacheRecord  { cacheName :: String     --file name
 --data type for a request to resolve a file to a server
 data ResolutionRequest = ResolutionRequest  { resolveName :: String         --name of the file
                                             , resolveIntention :: String    --whether the client intends "read" or "write" to this file
+                                            , authToken :: String           --token used for cache hits to securely transfer files
                                             } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 data ResolutionResponse = ResolutionResponse  { resolutionStatus :: Bool
