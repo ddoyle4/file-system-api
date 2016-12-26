@@ -26,7 +26,7 @@ import Crypto.Hash.MD5
 --  Primary File Records are inserted by the Directory Server
 --  Secondary File Records are inserted by the file servers as copies of the file propagate throughout the system
 data FileRecord = FileRecord  { recordType :: String        --is this a "primary" record or a "secondary" (copy) of the file
-                              , fileName :: String          --name of the file
+                              , fileRecordName :: String          --name of the file
                               , fileVersion :: String       --version of the file
                               , serverRecord :: FileServerRecord
                               } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read, Eq)
