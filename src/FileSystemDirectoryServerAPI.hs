@@ -43,7 +43,7 @@ data CacheRecord = CacheRecord  { cacheName :: String     --file name
                                 , cacheData :: String
                                 , cacheFilled :: Bool     -- notifies task scheduler to fill cache with file data asap
                                 , cacheDirty :: Bool      -- true signifies that the file version is out-of-date and needs updating
-                                , cacheWeight :: String   -- represents how important this cache record is, used when clearing cache
+                                , cacheAge :: String      -- represents how old this cache record is, used when clearing cache
                                 } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 --data type for a request to resolve a file to a server
