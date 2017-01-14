@@ -34,10 +34,15 @@ data FileRecord = FileRecord  { recordType :: String        --is this a "primary
 --represents cache entry
 --IMPORTANT
 --  These are inserted by the Directory Server - they are fetched from file servers according to the caching strategy
+--  Note on cacheDirty and cacheFilled:
+--    As described in the Directory Service README, cacheFilled false signifies that the cache is empty and requires the task scheduler to 
+--    fill it on next scheduled run. cacheDirty true requries the same action from the task scheduler. However, when cacheDirty is true, any further requests
+--    to write to the file will increment cacheVersion (and fileVersion for the corresponding FileRecord).
 data CacheRecord = CacheRecord  { cacheName :: String     --file name
-                                , cacheVersion :: String
+                                , cacheVersion :: String  --file version
                                 , cacheData :: String
                                 , cacheFilled :: Bool     -- notifies task scheduler to fill cache with file data asap
+                                , cacheDirty :: Bool      -- true signifies that the file version is out-of-date and needs updating
                                 , cacheWeight :: String   -- represents how important this cache record is, used when clearing cache
                                 } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 

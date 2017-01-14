@@ -55,7 +55,7 @@ data ReadFileResp = ReadFileResp  { readStatus :: Bool
                                   } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 -- Secure Token to encrypt / decrypt data
-data SecureToken = SecureToken  
+--data SecureToken = SecureToken  
 
 
 deriving instance FromBSON String  -- we need these as BSON does not provide
