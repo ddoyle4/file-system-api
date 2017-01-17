@@ -29,9 +29,13 @@ import Crypto.Hash.MD5
 key1Seed :: String
 key1Seed = "key1seed"
 
---seed for fileservers
+--seed for file servers
 key2Seed :: String
 key2Seed = "key2seed"
+
+--seed for directory server
+key3Seed :: String
+key3Seed = "key3Seed"
 
 --Cotains key 1 and metadata for a receiver
 data ReceiverToken = ReceiverToken  { recKey1Seed :: String
