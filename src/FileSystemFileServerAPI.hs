@@ -18,7 +18,8 @@ import           Servant
 import qualified Crypto.Cipher.AES as CCA
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as BC
-import Crypto.Hash.MD5
+import           Crypto.Hash.MD5
+import FileSystemDirectoryServerAPI (FileServerNotification)
 
 --TODO use Ints instead of Strings for version numbers, ToBSON and FromBSON have issues
 --TODO add a flag to say whether or not this file has been replicated or not - have the task scheduler check this flag regularly and replicate
@@ -54,15 +55,21 @@ data ReadFileResp = ReadFileResp  { readStatus :: Bool
                                   , currentFileVersion :: String
                                   } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
--- Secure Token to encrypt / decrypt data
---data SecureToken = SecureToken  
+data Notification = Notification  { notification :: FileServerNotification
+                                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 
-deriving instance FromBSON String  -- we need these as BSON does not provide
-deriving instance ToBSON   String
-deriving instance FromBSON Bool  -- we need these as BSON does not provide
-deriving instance ToBSON   Bool
+--deriving instance FromBSON String  -- we need these as BSON does not provide
+--deriving instance ToBSON   String
+--deriving instance FromBSON Bool  -- we need these as BSON does not provide
+--deriving instance ToBSON   Bool
 
-type API =  "writeToFile"         :> ReqBody '[JSON] WriteFileReq :> Post '[JSON] WriteFileResp
-            :<|> "readFromFile"     :> ReqBody '[JSON] ReadFileReq  :> Post '[JSON] ReadFileResp
+type API =  "writeToFile"         :> ReqBody '[JSON] WriteFileReq   :> Post '[JSON] WriteFileResp
+            :<|> "readFromFile"   :> ReqBody '[JSON] ReadFileReq    :> Post '[JSON] ReadFileResp
+            :<|> "notify"         :> ReqBody '[JSON] Notification   :> Post '[JSON] Bool
+
+
+
+
+
 
