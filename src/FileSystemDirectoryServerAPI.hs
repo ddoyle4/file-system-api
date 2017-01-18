@@ -68,10 +68,16 @@ data FileServerRecord = FileServerRecord  { fsHost :: String
                                           , currentSize :: String
                                           } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
+data FileServerNotification = FileServerNotification  { fileServerRecords :: [FileServerRecord]
+
+                                                      } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
+
 deriving instance FromBSON String  -- we need these as BSON does not provide
 deriving instance ToBSON   String
 deriving instance FromBSON Bool  -- we need these as BSON does not provide
 deriving instance ToBSON   Bool
+deriving instance FromBSON [FileServerRecord]  -- we need these as BSON does not provide
+deriving instance ToBSON   [FileServerRecord]
 
 -- used when responding negatively to a ResolutionRequest
 nullFileServerRecord :: FileServerRecord
