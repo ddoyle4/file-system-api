@@ -19,7 +19,13 @@ import qualified Crypto.Cipher.AES as CCA
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as BC
 import           Crypto.Hash.MD5
-import FileSystemDirectoryServerAPI (FileServerNotification)
+import FileSystemDirectoryServerAPI (FileServerNotification, FileServerRecord)
+
+
+-- The ideal number of times to duplicate a file across redundant servers
+idealNumberDuplicated :: Int
+idealNumberDuplicated = 2
+
 
 --TODO use Ints instead of Strings for version numbers, ToBSON and FromBSON have issues
 --TODO add a flag to say whether or not this file has been replicated or not - have the task scheduler check this flag regularly and replicate
@@ -28,10 +34,9 @@ import FileSystemDirectoryServerAPI (FileServerNotification)
 data DBFile = DBFile  { fileName :: String      -- the name of the file
                       , fileVersion :: String
                       , fileData :: String
+                      , duplicate :: Bool       -- is this file a duplicate?
+                      , duplicated :: [FileServerRecord]  --list of servers containing this file - only accurate if duplicate = False
                       } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
-
-
-
 
 -- Requests to write to a file
 data WriteFileReq = WriteFileReq  { writeReqToken :: String
@@ -67,6 +72,7 @@ data Notification = Notification  { notification :: FileServerNotification
 type API =  "writeToFile"         :> ReqBody '[JSON] WriteFileReq   :> Post '[JSON] WriteFileResp
             :<|> "readFromFile"   :> ReqBody '[JSON] ReadFileReq    :> Post '[JSON] ReadFileResp
             :<|> "notify"         :> ReqBody '[JSON] Notification   :> Post '[JSON] Bool
+            :<|> "duplicate"      :> ReqBody '[JSON] DBFile         :> Post '[JSON] Bool
 
 
 
