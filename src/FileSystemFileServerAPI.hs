@@ -35,6 +35,7 @@ data DBFile = DBFile  { fileName :: String      -- the name of the file
                       , fileVersion :: String
                       , fileData :: String
                       , duplicate :: Bool       -- is this file a duplicate?
+                      , duplicateDirty :: Bool  -- is this ahead of all of the duplicated versions
                       , duplicated :: [FileServerRecord]  --list of servers containing this file - only accurate if duplicate = False
                       } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
