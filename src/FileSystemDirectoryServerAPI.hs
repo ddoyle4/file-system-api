@@ -92,3 +92,5 @@ negativeResolutionResponse = ResolutionResponse False nullFileRecord False ""
 type API =  "resolveFile"                :> ReqBody '[JSON] ResolutionRequest  :> Post '[JSON] ResolutionResponse
             :<|> "insertServerRecord"    :> ReqBody '[JSON] FileServerRecord   :> Post '[JSON] Bool 
             :<|> "insertFileRecord"      :> ReqBody '[JSON] FileRecord         :> Post '[JSON] Bool
+            :<|> "transResolveFile"      :> ReqBody '[JSON] ResolutionRequest  :> Post '[JSON] ResolutionResponse
+
