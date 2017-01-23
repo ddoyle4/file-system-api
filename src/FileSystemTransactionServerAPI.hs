@@ -19,8 +19,9 @@ import qualified Crypto.Cipher.AES as CCA
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as BC
 import           Crypto.Hash.MD5
+import           FileSystemDirectoryServerAPI hiding (API)
 
-
+-- ENDPOINT DATA TYPES
 -- This is implemented to make it easy to add parameters to the request later
 data InitTransReq = InitTransReq    deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
 
@@ -49,24 +50,45 @@ data AbortResp = AbortResp          { abortResTransID :: String
 
 
 data ActionReq = ActionReq          { actionReqTransID :: String  -- Add to this transaction
-                                    , actionType :: String        -- READ/WRITE 
+                                    , actionReqType :: String        -- READ/WRITE 
                                     , encActionValue :: String    -- if write, this is the encrypted file
-                                    , actionToken :: String
+                                    , targetServer :: FileServerRecord
+                                    , actionReqToken :: String
                                     } deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
 
 
 data ActionResp = ActionResp        { actionRespTransID :: String
-                                    , actionStatus :: Bool
+                                    , actionRespStatus :: Bool
+                                    } deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
+-- DATABASE DATA TYPES
+
+transactionDBName :: String
+transactionDBName = "transactions"
+
+data TransactionStatus = Committed | Aborted | Building
+
+instance Show TransactionStatus where
+  show Committed  = "COMMITTED"
+  show Aborted    = "ABORTED"
+  show Building   = "BUILDING"
+
+data Transaction = Transaction      { transactionID :: String
+                                    , transactionStatus :: String -- "COMMITTED", "ABORTED", "BUILDING"
                                     } deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
 
-deriving instance FromBSON String  -- we need these as BSON does not provide
-deriving instance ToBSON   String
-deriving instance FromBSON Bool    -- we need these as BSON does not provide
-deriving instance ToBSON   Bool
+data Action = Action                { actionID :: String
+                                    , actionTransID :: String
+                                    , actionServer :: FileServerRecord
+                                    , actionType :: String
+                                    , actionValue :: String
+                                    , actionStatus :: String
+                                    } deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
 
+--deriving instance FromBSON String  -- we need these as BSON does not provide
+--deriving instance ToBSON   String
+--deriving instance FromBSON Bool    -- we need these as BSON does not provide
+--deriving instance ToBSON   Bool
 
-
---this API will be for the lock-service - careful - it's using the same name as the other API services
 type API =  "initTransaction"         :> ReqBody '[JSON] InitTransReq   :> Post '[JSON] InitTransResp
             :<|> "commitTransaction"  :> ReqBody '[JSON] CommitReq      :> Post '[JSON] CommitResp
             :<|> "abortTransaction"   :> ReqBody '[JSON] AbortReq       :> Post '[JSON] AbortResp
