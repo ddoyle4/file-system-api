@@ -22,6 +22,7 @@ library
                      , FileSystemFileServerAPI
                      , FileSystemEncryption
                      , FileSystemDirectoryServerAPI
+                     , FileSystemTransactionServerAPI
   build-depends:       base >= 4.7 && < 5
                      , servant
                      , servant-client
