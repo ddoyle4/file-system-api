@@ -51,7 +51,8 @@ data AbortResp = AbortResp          { abortResTransID :: String
 
 data ActionReq = ActionReq          { actionReqTransID :: String  -- Add to this transaction
                                     , actionReqType :: String        -- READ/WRITE 
-                                    , encActionValue :: String    -- if write, this is the encrypted file
+                                    , encActionFileName :: String
+                                    , encActionFileValue :: String    -- if write, this is the encrypted file
                                     , targetServer :: FileServerRecord
                                     , actionReqToken :: String
                                     } deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
