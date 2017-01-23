@@ -18,7 +18,7 @@ import           Servant
 import qualified Crypto.Cipher.AES as CCA
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as BC
-import Crypto.Hash.MD5
+import           Crypto.Hash.MD5
 
 
 -- This is implemented to make it easy to add parameters to the request later
