@@ -53,7 +53,6 @@ data ActionReq = ActionReq          { actionReqTransID :: String  -- Add to this
                                     , actionReqType :: String        -- READ/WRITE 
                                     , encActionFileName :: String
                                     , encActionFileValue :: String    -- if write, this is the encrypted file
-                                    , targetServer :: FileServerRecord
                                     , actionReqToken :: String
                                     } deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
 
@@ -62,9 +61,12 @@ data ActionResp = ActionResp        { actionRespTransID :: String
                                     , actionRespStatus :: Bool
                                     } deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
 -- DATABASE DATA TYPES
-
+-- TODO - do this for all of the other dbs in this system
 transactionDBName :: String
 transactionDBName = "transactions"
+
+actionDBName :: String
+actionDBName = "actions"
 
 data TransactionStatus = Committed | Aborted | Building
 
@@ -81,7 +83,8 @@ data Action = Action                { actionID :: String
                                     , actionTransID :: String
                                     , actionServer :: FileServerRecord
                                     , actionType :: String
-                                    , actionValue :: String
+                                    , actionFileName :: String
+                                    , actionFileValue :: String
                                     , actionStatus :: String
                                     } deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
 

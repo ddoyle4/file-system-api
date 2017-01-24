@@ -31,51 +31,62 @@ idealNumberDuplicated = 2
 --TODO add a flag to say whether or not this file has been replicated or not - have the task scheduler check this flag regularly and replicate
 --with this for some reason
 -- model for file in DB
-data DBFile = DBFile  { fileName :: String      -- the name of the file
-                      , fileVersion :: String
-                      , fileData :: String
-                      , duplicate :: Bool       -- is this file a duplicate?
-                      , duplicateDirty :: Bool  -- is this ahead of all of the duplicated versions - only considered if dupliace = False
-                      , duplicated :: [FileServerRecord]  --list of servers containing this file - only accurate if duplicate = False
-                      , registered :: Bool      -- has this file been registered with directory server? only for duplicates
-                      } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
+data DBFile = DBFile                    { fileName :: String      -- the name of the file
+                                        , fileVersion :: String
+                                        , fileData :: String
+                                        , duplicate :: Bool       -- is this file a duplicate?
+                                        , duplicateDirty :: Bool  -- is this ahead of all of the duplicated versions - only considered if dupliace = False
+                                        , duplicated :: [FileServerRecord]  --list of servers containing this file - only accurate if duplicate = False
+                                        , registered :: Bool      -- has this file been registered with directory server? only for duplicates
+                                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
--- Requests to write to a file
-data WriteFileReq = WriteFileReq  { writeReqToken :: String
-                                  , writeReqFileName :: String           --might put this in reqValue instead
-                                  , writeReqValue :: String              --file encrypted with 'key 1'
-                                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
+-- Shadow files used by transaction server
+data ShadowFile = ShadowFile            { shadowID :: String
+                                        , shadowFileName :: String
+                                        , shadowFileValue :: String
+                                        , shadowStatus :: String
+                                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read) 
 
-data WriteFileResp = WriteFileResp  { writeStatus :: Bool
-                                    , newFileVersion :: String
-                                    } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
+data WriteShadowReq = WriteShadowReq    { shadowToken :: String
+                                        , shadowReqFileName :: String
+                                        , shadowReqFileValue :: String
+                                        , shadowActionID :: String
+                                        , shadowTransID :: String
+                                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
--- Requests to read from a file
-data ReadFileReq = ReadFileReq  { readReqFileToken :: String
-                                , readReqFileName :: String
-                                } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
+data CommitShadowReq = CommitShadowReq  { commitActionID :: String
+                                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
+
+data WriteFileReq = WriteFileReq        { writeReqToken :: String
+                                        , writeReqFileName :: String           --might put this in reqValue instead
+                                        , writeReqValue :: String              --file encrypted with 'key 1'
+                                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
+
+data WriteFileResp = WriteFileResp      { writeStatus :: Bool
+                                        , newFileVersion :: String
+                                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
+
+data ReadFileReq = ReadFileReq          { readReqFileToken :: String
+                                        , readReqFileName :: String
+                                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
+
+data ReadFileResp = ReadFileResp        { readStatus :: Bool
+                                        , readMessage :: String
+                                        , encryptedResult :: String
+                                        , currentFileVersion :: String
+                                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
+
+data Notification = Notification        { notification :: FileServerNotification
+                                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 
-data ReadFileResp = ReadFileResp  { readStatus :: Bool
-                                  , readMessage :: String
-                                  , encryptedResult :: String
-                                  , currentFileVersion :: String
-                                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
-
-data Notification = Notification  { notification :: FileServerNotification
-                                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
-
-
---deriving instance FromBSON String  -- we need these as BSON does not provide
---deriving instance ToBSON   String
---deriving instance FromBSON Bool  -- we need these as BSON does not provide
---deriving instance ToBSON   Bool
-
-type API =  "writeToFile"         :> ReqBody '[JSON] WriteFileReq   :> Post '[JSON] WriteFileResp
-            :<|> "readFromFile"   :> ReqBody '[JSON] ReadFileReq    :> Post '[JSON] ReadFileResp
-            :<|> "notify"         :> ReqBody '[JSON] Notification   :> Post '[JSON] Bool
-            :<|> "duplicate"      :> ReqBody '[JSON] DBFile         :> Post '[JSON] Bool
-
+type API =  "writeToFile"         :> ReqBody '[JSON] WriteFileReq     :> Post '[JSON] WriteFileResp
+            :<|> "readFromFile"   :> ReqBody '[JSON] ReadFileReq      :> Post '[JSON] ReadFileResp
+            :<|> "notify"         :> ReqBody '[JSON] Notification     :> Post '[JSON] Bool
+            :<|> "duplicate"      :> ReqBody '[JSON] DBFile           :> Post '[JSON] Bool
+            :<|> "writeShadow"    :> ReqBody '[JSON] WriteShadowReq   :> Post '[JSON] Bool
+            :<|> "commitShadow"   :> ReqBody '[JSON] CommitShadowReq  :> Post '[JSON] Bool
+ 
 
 
 
