@@ -82,7 +82,7 @@ data Transaction = Transaction      { transactionID :: String
                                     , transactionStatus :: String -- "COMMITTED", "ABORTED", "BUILDING"
                                     } deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
 
-data Action = Action                { actionID :: String
+data TransAction = TransAction      { actionID :: String
                                     , actionTransID :: String
                                     , actionServer :: FileServerRecord
                                     , actionType :: String
