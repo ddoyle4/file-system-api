@@ -57,6 +57,9 @@ data WriteShadowReq = WriteShadowReq    { shadowToken :: String
 data CommitShadowReq = CommitShadowReq  { commitActionID :: String
                                         } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
+data AbortShadowReq = AbortShadowReq    { abortTransID :: String
+                                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
+
 data WriteFileReq = WriteFileReq        { writeReqToken :: String
                                         , writeReqFileName :: String           --might put this in reqValue instead
                                         , writeReqValue :: String              --file encrypted with 'key 1'
@@ -86,6 +89,7 @@ type API =  "writeToFile"         :> ReqBody '[JSON] WriteFileReq     :> Post '[
             :<|> "duplicate"      :> ReqBody '[JSON] DBFile           :> Post '[JSON] Bool
             :<|> "writeShadow"    :> ReqBody '[JSON] WriteShadowReq   :> Post '[JSON] Bool
             :<|> "commitShadow"   :> ReqBody '[JSON] CommitShadowReq  :> Post '[JSON] Bool
+            :<|> "abortShadow"    :> ReqBody '[JSON] AbortShadowReq   :> Post '[JSON] Bool
  
 
 
