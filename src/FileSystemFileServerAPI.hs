@@ -26,7 +26,6 @@ import FileSystemDirectoryServerAPI (FileServerNotification, FileServerRecord)
 idealNumberDuplicated :: Int
 idealNumberDuplicated = 2
 
-
 --TODO use Ints instead of Strings for version numbers, ToBSON and FromBSON have issues
 --TODO add a flag to say whether or not this file has been replicated or not - have the task scheduler check this flag regularly and replicate
 --with this for some reason
