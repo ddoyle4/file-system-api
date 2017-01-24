@@ -45,6 +45,7 @@ data ShadowFile = ShadowFile            { shadowAID :: String
                                         , shadowTID :: String
                                         , shadowFileName :: String
                                         , shadowFileValue :: String
+                                        , shadowFileVersion :: String
                                         , shadowStatus :: String
                                         } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read) 
 
