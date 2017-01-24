@@ -88,6 +88,7 @@ data TransAction = TransAction      { actionID :: String
                                     , actionType :: String
                                     , actionFileName :: String
                                     , actionFileValue :: String
+                                    , actionFileVersion :: String
                                     , actionStatus :: String
                                     } deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
 
