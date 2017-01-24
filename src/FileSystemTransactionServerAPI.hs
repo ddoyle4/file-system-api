@@ -96,8 +96,9 @@ data Action = Action                { actionID :: String
 --deriving instance FromBSON Bool    -- we need these as BSON does not provide
 --deriving instance ToBSON   Bool
 
-type API =  "initTransaction"         :> ReqBody '[JSON] InitTransReq   :> Post '[JSON] InitTransResp
-            :<|> "commitTransaction"  :> ReqBody '[JSON] CommitReq      :> Post '[JSON] CommitResp
-            :<|> "abortTransaction"   :> ReqBody '[JSON] AbortReq       :> Post '[JSON] AbortResp
-            :<|> "action"             :> ReqBody '[JSON] ActionReq      :> Post '[JSON] ActionResp
+type API =  "initTransaction"         :> ReqBody '[JSON] InitTransReq           :> Post '[JSON] InitTransResp
+            :<|> "commitTransaction"  :> ReqBody '[JSON] CommitReq              :> Post '[JSON] CommitResp
+            :<|> "abortTransaction"   :> ReqBody '[JSON] AbortReq               :> Post '[JSON] AbortResp
+            :<|> "action"             :> ReqBody '[JSON] ActionReq              :> Post '[JSON] ActionResp
+            :<|> "discovery"          :> ReqBody '[JSON] FileSystemServerRecord :> Post '[JSON] Bool 
 
