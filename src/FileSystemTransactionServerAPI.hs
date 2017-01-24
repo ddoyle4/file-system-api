@@ -68,6 +68,9 @@ transactionDBName = "transactions"
 actionDBName :: String
 actionDBName = "actions"
 
+serverRecordsDBName :: String 
+serverRecordsDBName = "server-records"
+
 data TransactionStatus = Committed | Aborted | Building
 
 instance Show TransactionStatus where
