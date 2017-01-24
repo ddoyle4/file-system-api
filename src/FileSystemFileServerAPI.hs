@@ -20,6 +20,7 @@ import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as BC
 import           Crypto.Hash.MD5
 import FileSystemDirectoryServerAPI (FileServerNotification, FileServerRecord)
+import           FileSystemDirectoryServerAPI hiding (API)
 
 
 -- The ideal number of times to duplicate a file across redundant servers
@@ -92,6 +93,7 @@ type API =  "writeToFile"         :> ReqBody '[JSON] WriteFileReq     :> Post '[
             :<|> "writeShadow"    :> ReqBody '[JSON] WriteShadowReq   :> Post '[JSON] Bool
             :<|> "commitShadow"   :> ReqBody '[JSON] CommitShadowReq  :> Post '[JSON] Bool
             :<|> "abortShadow"    :> ReqBody '[JSON] AbortShadowReq   :> Post '[JSON] Bool
+            :<|> "discovery"      :> ReqBody '[JSON] FileSystemServerRecord :> Post '[JSON] Bool
  
 
 

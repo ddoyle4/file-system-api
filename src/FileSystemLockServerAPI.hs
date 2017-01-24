@@ -19,6 +19,7 @@ import qualified Crypto.Cipher.AES as CCA
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as BC
 import Crypto.Hash.MD5
+import           FileSystemDirectoryServerAPI hiding (API)
 
 
 data FileLock = FileLock  { virtLockPath :: String
@@ -34,14 +35,9 @@ data LockFileReq = LockFileReq  { lockVirtPath :: String
 data UnlockFileReq = UnlockFileReq  { unlockVirtPath :: String
                                     } deriving (Show, Generic, ToJSON, FromJSON, FromBSON, ToBSON, Read)
 
-deriving instance FromBSON String  -- we need these as BSON does not provide
-deriving instance ToBSON   String
-deriving instance FromBSON Bool  -- we need these as BSON does not provide
-deriving instance ToBSON   Bool
-
-
 
 --this API will be for the lock-service - careful - it's using the same name as the other API services
 type API =  "lockFile"                    :> ReqBody '[JSON] LockFileReq :> Post '[JSON] Bool
             :<|> "unlockFile"             :> ReqBody '[JSON] UnlockFileReq :> Post '[JSON] Bool
+            :<|> "discovery"          :> ReqBody '[JSON] FileSystemServerRecord :> Post '[JSON] Bool
 

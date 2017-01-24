@@ -19,6 +19,7 @@ import qualified Crypto.Cipher.AES as CCA
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as BC
 import Crypto.Hash.MD5
+import           FileSystemDirectoryServerAPI hiding (API)
 
 
 
@@ -66,10 +67,6 @@ data DBUser = DBUser  { dbusername :: String
                       , dbencusername :: String     --the user's username encrypted with their password
                       } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
-deriving instance FromBSON String  -- we need these as BSON does not provide
-deriving instance ToBSON   String
-
-
 data ResponseData = ResponseData { response :: String
                                  } deriving (Generic, ToJSON, FromJSON,FromBSON, Show)
 
@@ -84,6 +81,7 @@ type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSO
       --user data type for authorisation requests - the only difference here is that the password
       --will actually be a string representation of the username encrypted with the password
       :<|> "authUser"                   :> ReqBody '[JSON] User  :> Post '[JSON] AuthResponse          
+      :<|> "discovery"          :> ReqBody '[JSON] FileSystemServerRecord :> Post '[JSON] Bool
 
 
 -- ENCRYPTION STUFF -TODO perhaps this would be better in it's own API 
