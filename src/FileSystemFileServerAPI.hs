@@ -51,6 +51,7 @@ data ShadowFile = ShadowFile            { shadowAID :: String
 data WriteShadowReq = WriteShadowReq    { shadowToken :: String
                                         , shadowReqFileName :: String
                                         , shadowReqFileValue :: String
+                                        , shadowReqFileVersion :: String
                                         , shadowActionID :: String
                                         , shadowTransID :: String
                                         } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
