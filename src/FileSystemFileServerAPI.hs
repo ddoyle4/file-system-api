@@ -41,7 +41,8 @@ data DBFile = DBFile                    { fileName :: String      -- the name of
                                         } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON, Read)
 
 -- Shadow files used by transaction server
-data ShadowFile = ShadowFile            { shadowID :: String
+data ShadowFile = ShadowFile            { shadowAID :: String
+                                        , shadowTID :: String
                                         , shadowFileName :: String
                                         , shadowFileValue :: String
                                         , shadowStatus :: String
