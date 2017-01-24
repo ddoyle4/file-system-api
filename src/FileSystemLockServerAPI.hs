@@ -39,5 +39,5 @@ data UnlockFileReq = UnlockFileReq  { unlockVirtPath :: String
 --this API will be for the lock-service - careful - it's using the same name as the other API services
 type API =  "lockFile"                    :> ReqBody '[JSON] LockFileReq :> Post '[JSON] Bool
             :<|> "unlockFile"             :> ReqBody '[JSON] UnlockFileReq :> Post '[JSON] Bool
-            :<|> "discovery"          :> ReqBody '[JSON] FileSystemServerRecord :> Post '[JSON] Bool
+            :<|> "discovery"              :> ReqBody '[JSON] FileSystemServerRecord :> Post '[JSON] Bool
 
