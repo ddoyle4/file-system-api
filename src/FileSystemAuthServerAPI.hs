@@ -71,12 +71,7 @@ data ResponseData = ResponseData { response :: String
                                  } deriving (Generic, ToJSON, FromJSON,FromBSON, Show)
 
 
-type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSON] ResponseData
-      :<|> "getREADME"                  :> Get '[JSON] ResponseData
-      :<|> "storeMessage"               :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
-      :<|> "searchMessage"              :> QueryParam "name" String :> Get '[JSON] [Message]
-      :<|> "performRESTCall"            :> QueryParam "filter" String  :> Get '[JSON] ResponseData
-      :<|> "debugSaveUser"              :> ReqBody '[JSON] User  :> Post '[JSON] Bool
+type API = "debugSaveUser"              :> ReqBody '[JSON] User  :> Post '[JSON] Bool
       --NOTE instead of creating yet another data type almost identical to User, I am overloading the
       --user data type for authorisation requests - the only difference here is that the password
       --will actually be a string representation of the username encrypted with the password
