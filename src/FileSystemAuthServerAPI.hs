@@ -79,8 +79,6 @@ type API = "debugSaveUser"              :> ReqBody '[JSON] User  :> Post '[JSON]
       :<|> "discovery"          :> ReqBody '[JSON] FileSystemServerRecord :> Post '[JSON] Bool
 
 
--- ENCRYPTION STUFF -TODO perhaps this would be better in it's own API 
-
 paddingChar :: Char
 paddingChar = '\0'
 
